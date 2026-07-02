@@ -2,189 +2,401 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JioMart Clone - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VasuMart - Premium App</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        /* पूरे पेज का बेसिक डिज़ाइन */
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f2f2f2;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* ऊपर का नेविगेशन बार (Header) */
+        body {
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Mobile App Container */
+        .app-container {
+            width: 100%;
+            max-width: 414px; /* iPhone Max Width */
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+
+        /* App Header */
         header {
-            background-color: #008ccf; /* JioMart का नीला रंग */
+            background: #fff;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            background: #e31e24; /* VasuMart Red */
             color: white;
-            padding: 15px 30px;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #002f6c;
+        }
+
+        .brand-name span {
+            color: #e31e24;
+        }
+
+        .user-greeting {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: none;
+            border-radius: 12px;
+            background: #f1f3f5;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        /* Promotional Banner */
+        .banner {
+            margin: 15px 20px;
+            background: linear-gradient(135deg, #002f6c, #0056b3);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .banner p {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .banner-btn {
+            background: #fff;
+            color: #002f6c;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Section Titles */
+        .section-title {
+            padding: 0 20px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
+        .section-title a {
+            font-size: 12px;
+            color: #e31e24;
+            text-decoration: none;
         }
 
-        /* सर्च बार का डिज़ाइन */
-        .search-container {
-            flex-grow: 1;
-            margin: 0 30px;
-            display: flex;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 5px;
-            border: none;
-            outline: none;
-            font-size: 16px;
-        }
-
-        /* कार्ट और प्रोफाइल आइकॉन/बटन */
-        .header-icons {
-            display: flex;
-            gap: 20px;
-        }
-
-        .header-icons span {
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* मेन कंटेंट का हिस्सा */
-        .container {
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        /* प्रोडक्ट्स दिखाने के लिए ग्रिड (Grid) */
+        /* Product Grid */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 0 20px 20px 20px;
         }
 
-        /* प्रोडक्ट कार्ड का डिज़ाइन */
         .product-card {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.2s;
+            background: #fff;
+            border-radius: 15px;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            position: relative;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px); /* माउस ले जाने पर कार्ड थोड़ा ऊपर उठेगा */
-        }
-
-        /* प्रोडक्ट की फोटो के लिए जगह */
-        .product-image {
-            width: 100px;
+        .product-img {
             height: 100px;
-            background-color: #e0e0e0;
-            margin: 0 auto 15px auto;
-            border-radius: 5px;
+            background: #f8f9fa;
+            border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #777;
-        }
-
-        .product-title {
-            font-size: 16px;
-            color: #333;
+            font-size: 40px;
             margin-bottom: 10px;
         }
 
-        .product-price {
-            font-size: 20px;
-            color: #d11243; /* कीमत के लिए लाल/गुलाबी रंग */
-            font-weight: bold;
-            margin-bottom: 15px;
+        .product-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* Add to Cart बटन */
-        .add-to-cart-btn {
-            background-color: #008ccf;
-            color: white;
-            border: none;
-            padding: 10px 0;
-            width: 100%;
-            border-radius: 5px;
+        .product-weight {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .add-btn {
+            background: #fff;
+            color: #e31e24;
+            border: 1px solid #e31e24;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-size: 16px;
             cursor: pointer;
-            font-weight: bold;
+            transition: 0.2s;
         }
 
-        .add-to-cart-btn:hover {
-            background-color: #006b9e;
+        .add-btn:active {
+            background: #e31e24;
+            color: #fff;
         }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 414px;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            border-top: 1px solid #eee;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #888;
+            text-decoration: none;
+            font-size: 10px;
+            gap: 4px;
+        }
+
+        .nav-item.active {
+            color: #e31e24;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+      .trans{
+    background: transparent;     /* Button ka color hide */
+    border: none;                /* Border bhi hataye */
+    padding: 0;                  /* Extra space hataye */
+    cursor: pointer;
+    outline: none;
+}
+
     </style>
 </head>
 <body>
 
-    <!-- Header / Navbar -->
-    <header>
-        <div class="logo">Vasu Mart🛍️</div>
-        <div class="search-container">
-            <input type="text" placeholder="Search for Groceries, Electronics, Fashion...">
-        </div>
-        <div class="header-icons">
-            <span>👤 Sign In</span>
-            <span>🛒 Cart</span>
-        </div>
-    </header>
+    <div class="app-container">
+        <!-- App Header -->
+        <header>
+            <div class="header-top">
+                <div class="brand">
+                    <div class="brand-icon">V</div>
+                    <div class="brand-name">Vasu<span>Mart</span></div>
+                </div>
+                <div class="user-greeting">
+                    Hi, Vaibhav Kumawat <i class="fa-solid fa-circle-user"></i>
+                </div>
+            </div>
+            
+            <div class="search-container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="सर्च करें...">
+            </div>
+        </header>
 
-    <!-- Main Content (Products) -->
-    <div class="container">
-        <h2>Top Offers</h2>
-        
+        <!-- Banner -->
+        <div class="banner">
+            <h2>Super Saver Deals!</h2>
+            <p>आपकी पसंदीदा चीज़ों पर भारी छूट</p>
+            <button class="banner-btn">अभी खरीदें</button>
+        </div>
+
+        <!-- Trending Products Section -->
+        <div class="section-title">
+            <span>आपके लिए खास</span>
+            <a href="#">See All</a>
+        </div>
+
         <div class="product-grid">
             <!-- Product 1 -->
             <div class="product-card">
-                <div class="product-image">🍎 Image</div>
-                <div class="product-title">Fresh Apple (1 kg)</div>
-                <div class="product-price">₹150</div>
-                <button class="add-to-cart-btn">Add to Cart</button>
+                <div class="product-img">🍪</div>
+                <div class="product-title">Sunfeast Dark Fantasy</div>
+                <div class="product-weight">300g</div>
+                <div class="price-row">
+                    <span class="price">₹120</span>
+                    <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+                </div>
             </div>
 
             <!-- Product 2 -->
             <div class="product-card">
-                <div class="product-image">🌾 Image</div>
-                <div class="product-title">Aashirvaad Atta (5 kg)</div>
-                <div class="product-price">₹210</div>
-                <button class="add-to-cart-btn">Add to Cart</button>
+                <div class="product-img">🧁</div>
+                <div class="product-title">Lotte Choco Pie</div>
+                <div class="product-weight">Pack of 6</div>
+                <div class="price-row">
+                    <span class="price">₹90</span>
+                    <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+                </div>
             </div>
 
             <!-- Product 3 -->
             <div class="product-card">
-                <div class="product-image">🧈 Image</div>
-                <div class="product-title">Amul Butter (500g)</div>
-                <div class="product-price">₹275</div>
-                <button class="add-to-cart-btn">Add to Cart</button>
+                <div class="product-img">✨</div>
+                <div class="product-title">Vitamin C Face Serum</div>
+                <div class="product-weight">30ml</div>
+                <div class="price-row">
+                    <span class="price">₹450</span>
+                    <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+                </div>
             </div>
 
             <!-- Product 4 -->
             <div class="product-card">
-                <div class="product-image">🧅 Image</div>
-                <div class="product-title">Fresh Onion (1 kg)</div>
-                <div class="product-price">₹40</div>
-                <button class="add-to-cart-btn">Add to Cart</button>
+                <div class="product-img">🥔</div>
+                <div class="product-title">ताज़ा आलू (Fresh Potato)</div>
+                <div class="product-weight">1 kg</div>
+                <div class="price-row">
+                    <span class="price">₹35</span>
+                    <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+                </div>
             </div>
         </div>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="bottom-nav">
+          <button class="trans">
+            <a href="#" class="nav-item active">
+              
+                <i class="fa-solid fa-house"></i>
+                
+                <span>Home</span>
+            </a>
+            </button>
+            
+            <button class="trans">
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-border-all"></i>
+                <span>Categories</span>
+            </a>
+            </button>
+            
+            <button class="trans">
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Cart</span>
+            </a>
+            </button>
+            
+            <button class="trans">
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </a>
+            </button>
+        </nav>
     </div>
 
 </body>
