@@ -24,6 +24,59 @@
             justify-content: center;
         }
 
+        /* 🚀 1. SPLASH SCREEN (ओपनिंग स्क्रीन डिज़ाइन) */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        /* कोड से बना हुआ लाल 'V' लोगो */
+        .splash-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: scaleUp 0.6s ease-out;
+        }
+
+        .splash-icon {
+            background: #e31e24;
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 42px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(227, 30, 36, 0.2);
+        }
+
+        .splash-text {
+            font-size: 46px;
+            font-weight: 700;
+            color: #002f6c;
+        }
+
+        .splash-text span {
+            color: #e31e24;
+        }
+
+        @keyframes scaleUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         /* Mobile App Container */
         .app-container {
             width: 100%;
@@ -148,6 +201,61 @@
             cursor: pointer;
             position: relative;
             z-index: 2;
+        }
+
+        /* JioMart Style Categories Section */
+        .categories-container {
+            padding: 0 20px;
+            margin-bottom: 25px;
+        }
+
+        .categories-scroll {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 5px 0 10px 0;
+            scrollbar-width: none;
+        }
+
+        .categories-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-width: 70px;
+            cursor: pointer;
+        }
+
+        .category-circle {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            border: 1px solid #eee;
+            transition: transform 0.2s;
+        }
+
+        .category-card:active .category-circle {
+            transform: scale(0.92);
+            background-color: #fff5f5;
+            border-color: #e31e24;
+        }
+
+        .category-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #444;
+            margin-top: 8px;
+            white-space: nowrap;
         }
 
         /* Section Titles */
@@ -275,18 +383,27 @@
         .nav-item i {
             font-size: 20px;
         }
-      .trans{
-    background: transparent;     /* Button ka color hide */
-    border: none;                /* Border bhi hataye */
-    padding: 0;                  /* Extra space hataye */
-    cursor: pointer;
-    outline: none;
-}
 
+        .trans {
+            background: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            outline: none;
+        }
     </style>
 </head>
 <body>
 
+    <!-- 🚀 2. SPLASH SCREEN (यह बिना किसी फोटो के डायरेक्ट चालू होगा) -->
+    <div id="splash-screen">
+        <div class="splash-logo-container">
+            <div class="splash-icon">V</div>
+            <div class="splash-text">Vasu<span>Mart</span></div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
     <div class="app-container">
         <!-- App Header -->
         <header>
@@ -313,6 +430,39 @@
             <button class="banner-btn">अभी खरीदें</button>
         </div>
 
+        <!-- JioMart Style Categories Section -->
+        <div class="categories-container">
+            <div class="section-title">
+                <span>कैटेगरी से खरीदें</span>
+            </div>
+            <div class="categories-scroll">
+                <div class="category-card">
+                    <div class="category-circle">🥦</div>
+                    <div class="category-label">सब्जियां</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-circle">🍎</div>
+                    <div class="category-label">ताज़ा फल</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-circle">🥛</div>
+                    <div class="category-label">डेयरी व दूध</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-circle">🌾</div>
+                    <div class="category-label">किराना व दालें</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-circle">🍪</div>
+                    <div class="category-label">स्नैक्स</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-circle">🧼</div>
+                    <div class="category-label">सफाई का सामान</div>
+                </div>
+            </div>
+        </div>
+
         <!-- Trending Products Section -->
         <div class="section-title">
             <span>आपके लिए खास</span>
@@ -320,7 +470,6 @@
         </div>
 
         <div class="product-grid">
-            <!-- Product 1 -->
             <div class="product-card">
                 <div class="product-img">🍪</div>
                 <div class="product-title">Sunfeast Dark Fantasy</div>
@@ -331,7 +480,6 @@
                 </div>
             </div>
 
-            <!-- Product 2 -->
             <div class="product-card">
                 <div class="product-img">🧁</div>
                 <div class="product-title">Lotte Choco Pie</div>
@@ -342,7 +490,6 @@
                 </div>
             </div>
 
-            <!-- Product 3 -->
             <div class="product-card">
                 <div class="product-img">✨</div>
                 <div class="product-title">Vitamin C Face Serum</div>
@@ -353,7 +500,6 @@
                 </div>
             </div>
 
-            <!-- Product 4 -->
             <div class="product-card">
                 <div class="product-img">🥔</div>
                 <div class="product-title">ताज़ा आलू (Fresh Potato)</div>
@@ -367,37 +513,42 @@
 
         <!-- Bottom Navigation Bar -->
         <nav class="bottom-nav">
-          <button class="trans">
-            <a href="#" class="nav-item active">
-              
-                <i class="fa-solid fa-house"></i>
-                
-                <span>Home</span>
-            </a>
-            </button>
-            
             <button class="trans">
-            <a href="#" class="nav-item">
-                <i class="fa-solid fa-border-all"></i>
-                <span>Categories</span>
-            </a>
+                <a href="#" class="nav-item active">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Home</span>
+                </a>
             </button>
-            
             <button class="trans">
-            <a href="#" class="nav-item">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span>Cart</span>
-            </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-border-all"></i>
+                    <span>Categories</span>
+                </a>
             </button>
-            
             <button class="trans">
-            <a href="#" class="nav-item">
-                <i class="fa-solid fa-user"></i>
-                <span>Profile</span>
-            </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Cart</span>
+                </a>
+            </button>
+            <button class="trans">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Profile</span>
+                </a>
             </button>
         </nav>
     </div>
 
+    <!-- 🚀 3. JAVASCRIPT (ओपनिंग स्क्रीन को 2.5 सेकंड बाद गायब करने के लिए) -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500); // 0.5 सेकंड के एनीमेशन के बाद पूरी तरह हटा देगा
+            }, 2500); // 2.5 सेकंड तक लोगो दिखेगा
+        });
+    </script>
 </body>
-</html>
+                </html>
