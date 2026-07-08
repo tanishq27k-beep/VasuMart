@@ -1,460 +1,196 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VasuMart - Profile</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<h1>Vasu Mart Controller</h1>
+<label>Item number:<input id="num"></label>
+<br><br>
+<label>Item image:<input id="ini">
+<button id="btn1">Upload</button></label>
+<br><br>
+<label>Item name:<input id="int">
+<button id="btn2">Upload</button></label>
+<br><br>
+<label>Item weight:<input id="inw">
+<button id="btn3">Upload</button></label>
+<br><br>
+<label>Item price:<input id="inp">
+<button id="btn4">Upload</button></label>
+<br><br>
+<label>Item mrp:<input id="inmrp">
+<button id="btn5">Upload</button></label>
+<br><br>
+<label>Item discount:<input id="indis">
+<button id="btn6">Upload</button></label>
+<br><br>
+<label>Item Deteil:<textarea rows="4" id="indet" >
+  </textarea>
+<button id="btn7">Upload</button></label>
+<br><br>
+
+<br>
+<label>Name:
+<p id="name">name</p></label>
+<label>Weight:
+<p id="weight">weight</p></label>
+<label>Price:
+<p id="price">price</p></label>
+<label>MRP:
+<p id="mrpd1">mrp</p></label>
+<label>Discount:
+<p id="discountd1">discount</p></label>
+<label>Deteil:
+<p id="detailed1">detaile</p></label>
+<br><br>
+<img id="img1" height="200px" alt="img not found">
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, set, get, push, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    // ---------- FIREBASE SETUP (mat chhedo) ----------
+    const firebaseConfig = {
+      apiKey: "AIzaSyCTWmzMsNF58HVkj6eVe0aAJPpkcBIeCUU",
+      authDomain: "myapps-79dd3.firebaseapp.com",
+      databaseURL: "https://myapps-79dd3-default-rtdb.firebaseio.com",
+      projectId: "myapps-79dd3",
+      storageBucket: "myapps-79dd3.firebasestorage.app",
+      messagingSenderId: "1032448815652",
+      appId: "1:1032448815652:web:513d4f24cef0ffba659eb1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // ---------- HELPER FUNCTIONS ----------
+
+    // Fixed path pe data save/overwrite
+    function saveData(path, value) {
+      set(ref(db, path), value)
+        .then(() => console.log("Saved ✔", path, value))
+        .catch((err) => console.log("ERROR:", err.message));
+    }
+
+    // Naya entry add (auto unique ID) — list jaisa data
+    function pushData(path, value) {
+      push(ref(db, path), value)
+        .then(() => console.log("Added ✔", path, value))
+        .catch((err) => console.log("ERROR:", err.message));
+    }
+
+    // Data ek baar padhna
+    function readData(path, callback) {
+      get(ref(db, path))
+        .then((snapshot) => callback(snapshot.val()))
+        .catch((err) => console.log("ERROR:", err.message));
+    }
+
+    // Data delete
+    function deleteData(path) {
+      remove(ref(db, path))
+        .then(() => console.log("Deleted ✔", path))
+        .catch((err) => console.log("ERROR:", err.message));
+    }
+
+    // Realtime listen — data change hote hi auto trigger
+    function listenData(path, callback) {
+      onValue(ref(db, path), (snapshot) => callback(snapshot.val()));
+    }
+
+    // ---------- BUTTONS ----------
+
+    // btn1 -> "bt" path pe value save karo
+   
+    const ini = document.getElementById("ini");
+    const int = document.getElementById("int");
+    const inw = document.getElementById("inw");
+    const inp = document.getElementById("inp");
     
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+    const inmrp = document.getElementById("inmrp");
+    const indis = document.getElementById("indis");
+    const indet = document.getElementById("indet");
+    
+    document.getElementById("btn1").addEventListener("click", () => {
+      const url = document.getElementById("ini").value.trim();
+     const m=document.getElementById("num").value;
+      saveData("img"+m, url);
+    });
+    
+     document.getElementById("btn2").addEventListener("click", () => {
+      const m=document.getElementById("num").value;
+      saveData("title"+m,int.value);
+     });
+    
+    document.getElementById("btn3").addEventListener("click", () => {
+      const m=document.getElementById("num").value;
+      saveData("weight"+m,inw.value);
+    });
+    
+     document.getElementById("btn4").addEventListener("click", () => {
+      const m=document.getElementById("num").value;
+      saveData("price"+m,inp.value);
+    });
+    
+    document.getElementById("btn5").addEventListener("click", () => {
+      const m=document.getElementById("num").value;
+      saveData("mrpd"+m,inmrp.value);
+    });
+    document.getElementById("btn6").addEventListener("click", () => {
+      const m=document.getElementById("num").value;
+      saveData("discountd"+m,indis.value);
+    });
+    document.getElementById("btn7").addEventListener("click", () => {
+      const m=document.getElementById("num").value;
+      saveData("detailed"+m,indet.value);
+    });
 
-        body {
-            background-color: #e9ecef;
-            display: flex;
-            justify-content: center;
-        }
 
-        /* 🚀 1. SPLASH SCREEN (ओपनिंग स्क्रीन) */
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease-out;
-        }
 
-        .splash-logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            animation: scaleUp 0.6s ease-out;
-        }
+    // ---------- OUTPUT: "ans" real-time update ----------
+ const numInput = document.getElementById("num");
 
-        .splash-icon {
-            background: #e31e24;
-            color: white;
-            width: 70px;
-            height: 70px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 42px;
-            font-weight: 700;
-            box-shadow: 0 10px 20px rgba(227, 30, 36, 0.2);
-        }
+let unsubWeight, unsubPrice, unsubTitle, unsubImg,unsubmrp,unsubdiscount,unsubdetaile;
 
-        .splash-text {
-            font-size: 46px;
-            font-weight: 700;
-            color: #002f6c;
-        }
+function attachListeners(m) {
+  // Purane listeners hatao (agar unsubscribe function available ho)
+  if (unsubWeight) unsubWeight();
+  if (unsubPrice) unsubPrice();
+  if (unsubTitle) unsubTitle();
+  if (unsubImg) unsubImg();
+  if (unsubmrp) unsubmrp();
+  if (unsubdiscount) unsubdiscount();
+  if (unsubdetaile) unsubdetaile();
 
-        .splash-text span {
-            color: #e31e24;
-        }
+  unsubWeight = listenData("weight" + m, (val) => {
+    document.getElementById("weight").innerText = val;
+  });
 
-        @keyframes scaleUp {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+  unsubPrice = listenData("price" + m, (val) => {
+    document.getElementById("price").innerText = val;
+  });
 
-        /* Mobile App Container */
-        .app-container {
-            width: 100%;
-            max-width: 414px;
-            background-color: #f8f9fa;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            padding-bottom: 80px;
-        }
+  unsubTitle = listenData("title" + m, (val) => {
+    document.getElementById("name").innerText = val;
+  });
 
-        /* Profile Header Design */
-        .profile-header {
-            background: linear-gradient(135deg, #002f6c, #0056b3);
-            padding: 30px 20px;
-            color: white;
-            border-bottom-left-radius: 25px;
-            border-bottom-right-radius: 25px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 47, 108, 0.2);
-        }
-
-        .profile-avatar-wrapper {
-            position: relative;
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 12px auto;
-        }
-
-        .profile-avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: white;
-            color: #002f6c;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 45px;
-            border: 3px solid rgba(255, 255, 255, 0.4);
-        }
-
-        .edit-badge {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            background: #e31e24;
-            color: white;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 12px;
-            border: 2px solid #002f6c;
-            cursor: pointer;
-        }
-
-        .profile-name {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .profile-tag {
-            font-size: 12px;
-            opacity: 0.8;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 3px 12px;
-            border-radius: 12px;
-            display: inline-block;
-        }
-
-        /* Wallet Dashboard */
-        .wallet-card {
-            background: white;
-            margin: -20px 20px 20px 20px;
-            border-radius: 15px;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            position: relative;
-            z-index: 10;
-        }
-
-        .wallet-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .wallet-info i {
-            font-size: 24px;
-            color: #e31e24;
-            background: #fff5f5;
-            padding: 10px;
-            border-radius: 12px;
-        }
-
-        .wallet-balance-label {
-            font-size: 11px;
-            color: #777;
-        }
-
-        .wallet-balance {
-            font-size: 16px;
-            font-weight: 700;
-            color: #222;
-        }
-
-        .add-money-btn {
-            background: #002f6c;
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Menu Options List */
-        .menu-section {
-            background: white;
-            margin: 0 20px 20px 20px;
-            border-radius: 15px;
-            padding: 5px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            border: 1px solid #eee;
-        }
-
-        .menu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-bottom: 1px solid #f1f3f5;
-            transition: background 0.2s;
-        }
-
-        .menu-item:last-child {
-            border-bottom: none;
-        }
-
-        .menu-item:active {
-            background: #f8f9fa;
-        }
-
-        .menu-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .menu-left i {
-            font-size: 18px;
-            width: 25px;
-            text-align: center;
-        }
-
-        .icon-blue { color: #002f6c; }
-        .icon-red { color: #e31e24; }
-        .icon-green { color: #28a745; }
-        .icon-orange { color: #fd7e14; }
-
-        .menu-text {
-            font-size: 14px;
-            font-weight: 500;
-            color: #333;
-        }
-
-        .menu-right {
-            color: #bbb;
-            font-size: 12px;
-        }
-
-        /* Logout Button Specific */
-        .logout-item {
-            color: #e31e24;
-        }
-        .logout-item .menu-text {
-            color: #e31e24;
-            font-weight: 600;
-        }
-
-        /* Bottom Navigation Bar */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 414px;
-            background: #fff;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            border-top: 1px solid #eee;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            z-index: 100;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #888;
-            text-decoration: none;
-            font-size: 10px;
-            gap: 4px;
-        }
-
-        .nav-item.active {
-            color: #e31e24;
-        }
-
-        .nav-item i {
-            font-size: 20px;
-        }
-
-        .trans {
-            background: transparent;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            outline: none;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- 🚀 2. SPLASH SCREEN (ओपनिंग स्क्रीन) -->
-    <div id="splash-screen">
-        <div class="splash-logo-container">
-            <div class="splash-icon">V</div>
-            <div class="splash-text">Vasu<span>Mart</span></div>
-        </div>
-    </div>
-
-    <!-- MAIN APP CONTAINER -->
-    <div class="app-container">
-        
-        <!-- Profile Header -->
-        <div class="profile-header">
-            <div class="profile-avatar-wrapper">
-                <div class="profile-avatar">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <div class="edit-badge">
-                    <i class="fa-solid fa-pen"></i>
-                </div>
-            </div>
-            <!-- User Info -->
-            <div class="profile-name">Vaibhav Kumawat</div>
-            <div class="profile-tag">Premium Member</div>
-        </div>
-
-        <!-- Wallet Card -->
-        <div class="wallet-card">
-            <div class="wallet-info">
-                <i class="fa-solid fa-wallet"></i>
-                <div>
-                    <div class="wallet-balance-label">VasuMart वॉलेट बैलेंस</div>
-                    <div class="wallet-balance">₹0.00</div>
-                </div>
-            </div>
-            <button class="add-money-btn">+ ऐड करें</button>
-        </div>
-
-        <!-- Menu Section 1 (Account Settings) -->
-        <div class="menu-section">
-            <!-- Item 1: My Orders -->
-            <div class="menu-item">
-                <div class="menu-left">
-                    <i class="fa-solid fa-box icon-blue"></i>
-                    <span class="menu-text">मेरे ऑर्डर्स (My Orders)</span>
-                </div>
-                <div class="menu-right"><i class="fa-solid fa-chevron-right"></i></div>
-            </div>
-            <!-- Item 2: Saved Addresses -->
-            <div class="menu-item">
-                <div class="menu-left">
-                    <i class="fa-solid fa-location-dot icon-red"></i>
-                    <span class="menu-text">बचाए गए पते (Saved Addresses)</span>
-                </div>
-                <div class="menu-right"><i class="fa-solid fa-chevron-right"></i></div>
-            </div>
-            <!-- Item 3: Payment Methods -->
-            <div class="menu-item">
-                <div class="menu-left">
-                    <i class="fa-solid fa-credit-card icon-green"></i>
-                    <span class="menu-text">पेमेंट मेथड्स (Payments)</span>
-                </div>
-                <div class="menu-right"><i class="fa-solid fa-chevron-right"></i></div>
-            </div>
-        </div>
-
-        <!-- Menu Section 2 (Support & Info) -->
-        <div class="menu-section">
-            <!-- Item 4: Customer Support -->
-            <div class="menu-item">
-                <div class="menu-left">
-                    <i class="fa-solid fa-headset icon-orange"></i>
-                    <span class="menu-text">कस्टमर सपोर्ट (Help Centre)</span>
-                </div>
-                <div class="menu-right"><i class="fa-solid fa-chevron-right"></i></div>
-            </div>
-            <!-- Item 5: About Us -->
-            <div class="menu-item">
-                <div class="menu-left">
-                    <i class="fa-solid fa-circle-info icon-blue"></i>
-                    <span class="menu-text">हमारे बारे में (About VasuMart)</span>
-                </div>
-                <div class="menu-right"><i class="fa-solid fa-chevron-right"></i></div>
-            </div>
-        </div>
-
-        <!-- Menu Section 3 (Logout) -->
-        <div class="menu-section">
-            <div class="menu-item logout-item">
-                <div class="menu-left">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span class="menu-text">लॉगआउट (Logout)</span>
-                </div>
-                <div class="menu-right"><i class="fa-solid fa-chevron-right" style="color: #e31e24;"></i></div>
-            </div>
-        </div>
-
-        <!-- Bottom Navigation Bar (इसमें Profile एक्टिव है) -->
-        <nav class="bottom-nav">
-            <button onclick="home()" class="trans">
-                <a href="#" class="nav-item">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Home</span>
-                </a>
-            </button>
-            <button onclick="category()" class="trans">
-                <a href="#" class="nav-item">
-                    <i class="fa-solid fa-border-all"></i>
-                    <span>Categories</span>
-                </a>
-            </button>
-            <button onclick="cart()" class="trans">
-                <a href="#" class="nav-item">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span>Cart</span>
-                </a>
-            </button>
-            <button class="trans">
-                <a href="#" class="nav-item active">
-                    <i class="fa-solid fa-user"></i>
-                    <span>Profile</span>
-                </a>
-            </button>
-        </nav>
-    </div>
-
-    <!-- 🚀 3. JAVASCRIPT (ओपनिंग स्क्रीन हटाने के लिए) -->
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
-                setTimeout(() => splash.remove(), 500);
-            }, 500);
-        });
-    function home(){
-  window.location.href = "https://tanishq27k-beep.github.io/VasuMartHome/";
+  unsubImg = listenData("img" + m, (url) => {
+    document.getElementById("img1").src = url || "";
+  });
+  
+  unsubmrp = listenData("mrpd" + m, (val) => {
+    document.getElementById("mrpd1").innerText = val;
+  });
+  unsubdiscount = listenData("discountd" + m, (val) => {
+    document.getElementById("discountd1").innerText = val;
+  });
+  unsubdetaile = listenData("detailed" + m, (val) => {
+    document.getElementById("detailed1").innerText = val;
+  });
 }
 
-function category(){
-  window.location.href = "https://tanishq27k-beep.github.io/VMcatg/";
-}
-function cart(){
-  window.location.href = "https://tanishq27k-beep.github.io/Counter/#";
-}  
-    </script>
-</body>
-</html>
+// Page load pe default num=1 se start
+attachListeners(numInput.value || 1);
+
+// num change hote hi live update
+numInput.addEventListener("input", () => {
+  const m = numInput.value;
+  if (m) attachListeners(m);
+});
+    
+                          </script>
