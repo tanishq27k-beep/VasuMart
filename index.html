@@ -1,201 +1,524 @@
-<h1>Vasu Mart Controller</h1>
-<label>Item number:<input id="num"></label>
-<br><br>
-<label>Item image:<input id="ini">
-<button id="btn1">Upload</button></label>
-<br><br>
-<label>Item name:<input id="int">
-<button id="btn2">Upload</button></label>
-<br><br>
-<label>Item weight:<input id="inw">
-<button id="btn3">Upload</button></label>
-<br><br>
-<label>Item price:<input id="inp">
-<button id="btn4">Upload</button></label>
-<br><br>
-<label>Item mrp:<input id="inmrp">
-<button id="btn5">Upload</button></label>
-<br><br>
-<label>Item discount:<input id="indis">
-<button id="btn6">Upload</button></label>
-<br><br>
-<label>Item Deteil:<textarea rows="4" id="indet" >
-  </textarea>
-<button id="btn7">Upload</button></label>
-<br><br>
-
-<br>
-<label>Name:
-<p id="name">name</p></label>
-<label>Weight:
-<p id="weight">weight</p></label>
-<label>Price:
-<p id="price">price</p></label>
-<label>MRP:
-<p id="mrpd1">mrp</p></label>
-<label>Discount:
-<p id="discountd1">discount</p></label>
-<label>Deteil:
-<p id="detailed1">detaile</p></label>
-<br><br>
-<img id="img1" height="200px" alt="img not found">
-
-<style>
-  body{
-    width="100%";
-  }
-</style>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, set, get, push, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-    // ---------- FIREBASE SETUP (mat chhedo) ----------
-    const firebaseConfig = {
-      apiKey: "AIzaSyCTWmzMsNF58HVkj6eVe0aAJPpkcBIeCUU",
-      authDomain: "myapps-79dd3.firebaseapp.com",
-      databaseURL: "https://myapps-79dd3-default-rtdb.firebaseio.com",
-      projectId: "myapps-79dd3",
-      storageBucket: "myapps-79dd3.firebasestorage.app",
-      messagingSenderId: "1032448815652",
-      appId: "1:1032448815652:web:513d4f24cef0ffba659eb1"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    // ---------- HELPER FUNCTIONS ----------
-
-    // Fixed path pe data save/overwrite
-    function saveData(path, value) {
-      set(ref(db, path), value)
-        .then(() => console.log("Saved ✔", path, value))
-        .catch((err) => console.log("ERROR:", err.message));
-    }
-
-    // Naya entry add (auto unique ID) — list jaisa data
-    function pushData(path, value) {
-      push(ref(db, path), value)
-        .then(() => console.log("Added ✔", path, value))
-        .catch((err) => console.log("ERROR:", err.message));
-    }
-
-    // Data ek baar padhna
-    function readData(path, callback) {
-      get(ref(db, path))
-        .then((snapshot) => callback(snapshot.val()))
-        .catch((err) => console.log("ERROR:", err.message));
-    }
-
-    // Data delete
-    function deleteData(path) {
-      remove(ref(db, path))
-        .then(() => console.log("Deleted ✔", path))
-        .catch((err) => console.log("ERROR:", err.message));
-    }
-
-    // Realtime listen — data change hote hi auto trigger
-    function listenData(path, callback) {
-      onValue(ref(db, path), (snapshot) => callback(snapshot.val()));
-    }
-
-    // ---------- BUTTONS ----------
-
-    // btn1 -> "bt" path pe value save karo
-   
-    const ini = document.getElementById("ini");
-    const int = document.getElementById("int");
-    const inw = document.getElementById("inw");
-    const inp = document.getElementById("inp");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VasuMart - Admin Controller</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    const inmrp = document.getElementById("inmrp");
-    const indis = document.getElementById("indis");
-    const indet = document.getElementById("indet");
-    
-    document.getElementById("btn1").addEventListener("click", () => {
-      const url = document.getElementById("ini").value.trim();
-     const m=document.getElementById("num").value;
-      saveData("img"+m, url);
-    });
-    
-     document.getElementById("btn2").addEventListener("click", () => {
-      const m=document.getElementById("num").value;
-      saveData("title"+m,int.value);
-     });
-    
-    document.getElementById("btn3").addEventListener("click", () => {
-      const m=document.getElementById("num").value;
-      saveData("weight"+m,inw.value);
-    });
-    
-     document.getElementById("btn4").addEventListener("click", () => {
-      const m=document.getElementById("num").value;
-      saveData("price"+m,inp.value);
-    });
-    
-    document.getElementById("btn5").addEventListener("click", () => {
-      const m=document.getElementById("num").value;
-      saveData("mrpd"+m,inmrp.value);
-    });
-    document.getElementById("btn6").addEventListener("click", () => {
-      const m=document.getElementById("num").value;
-      saveData("discountd"+m,indis.value);
-    });
-    document.getElementById("btn7").addEventListener("click", () => {
-      const m=document.getElementById("num").value;
-      saveData("detailed"+m,indet.value);
-    });
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
+        body {
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+        }
 
+        /* Mobile App Container matching Home Page */
+        .app-container {
+            width: 100%;
+            max-width: 414px; /* iPhone Max Width */
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 15px;
+            padding-bottom: 40px;
+        }
 
-    // ---------- OUTPUT: "ans" real-time update ----------
- const numInput = document.getElementById("num");
+        /* App Header matching original style */
+        header {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-let unsubWeight, unsubPrice, unsubTitle, unsubImg,unsubmrp,unsubdiscount,unsubdetaile;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-function attachListeners(m) {
-  // Purane listeners hatao (agar unsubscribe function available ho)
-  if (unsubWeight) unsubWeight();
-  if (unsubPrice) unsubPrice();
-  if (unsubTitle) unsubTitle();
-  if (unsubImg) unsubImg();
-  if (unsubmrp) unsubmrp();
-  if (unsubdiscount) unsubdiscount();
-  if (unsubdetaile) unsubdetaile();
+        .brand-icon {
+            background: #e31e24; /* VasuMart Red */
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
 
-  unsubWeight = listenData("weight" + m, (val) => {
-    document.getElementById("weight").innerText = val;
-  });
+        .brand-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #002f6c;
+        }
 
-  unsubPrice = listenData("price" + m, (val) => {
-    document.getElementById("price").innerText = val;
-  });
+        .brand-name span {
+            color: #e31e24;
+        }
 
-  unsubTitle = listenData("title" + m, (val) => {
-    document.getElementById("name").innerText = val;
-  });
+        .panel-tag {
+            font-size: 11px;
+            background: #ecf2ff;
+            color: #002f6c;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
 
-  unsubImg = listenData("img" + m, (url) => {
-    document.getElementById("img1").src = url || "";
-  });
-  
-  unsubmrp = listenData("mrpd" + m, (val) => {
-    document.getElementById("mrpd1").innerText = val;
-  });
-  unsubdiscount = listenData("discountd" + m, (val) => {
-    document.getElementById("discountd1").innerText = val;
-  });
-  unsubdetaile = listenData("detailed" + m, (val) => {
-    document.getElementById("detailed1").innerText = val;
-  });
-}
+        /* Master Selector Item Box */
+        .master-item-card {
+            background: linear-gradient(135deg, #002f6c, #0056b3);
+            border-radius: 15px;
+            padding: 15px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-// Page load pe default num=1 se start
-attachListeners(numInput.value || 1);
+        .master-item-card label {
+            font-size: 14px;
+            font-weight: 600;
+        }
 
-// num change hote hi live update
-numInput.addEventListener("input", () => {
-  const m = numInput.value;
-  if (m) attachListeners(m);
-});
-    
-                          </script>
+        .master-item-card input {
+            width: 80px;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            outline: none;
+            color: #002f6c;
+            background: #fff;
+        }
+
+        /* Section Titles matching Home Page */
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Input Controls Layout */
+        .control-group {
+            background: #fff;
+            border-radius: 15px;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+        }
+
+        .control-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-row input, .input-row textarea {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            background: #f8f9fa;
+            transition: 0.2s;
+        }
+
+        .input-row input:focus, .input-row textarea:focus {
+            border-color: #002f6c;
+            background: #fff;
+        }
+
+        /* Upload Button Styled like the original app */
+        .upload-btn {
+            background: #fff;
+            color: #e31e24;
+            border: 1px solid #e31e24;
+            padding: 0 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .upload-btn:active {
+            background: #e31e24;
+            color: #fff;
+        }
+
+        /* Live Monitor Section mimicking Product Card Styles */
+        .monitor-section {
+            background: #fff;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-top: 25px;
+            border: 1px dashed #ced4da;
+        }
+
+        .product-img-preview {
+            height: 140px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border: 1px solid #f1f3f5;
+        }
+
+        .product-img-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Live Stats Table/List */
+        .data-preview-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            border-bottom: 1px dashed #f1f3f5;
+            padding-bottom: 6px;
+        }
+
+        .data-row .title-label {
+            color: #888;
+            font-weight: 500;
+        }
+
+        .data-row .value-output {
+            color: #222;
+            font-weight: 600;
+        }
+
+        .detail-display {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #555;
+            margin-top: 4px;
+            min-height: 50px;
+            border: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- App Header -->
+        <header>
+            <div class="brand">
+                <div class="brand-icon">V</div>
+                <div class="brand-name">Vasu<span>Mart</span></div>
+            </div>
+            <div class="panel-tag">Controller</div>
+        </header>
+
+        <!-- Master Item Config -->
+        <div class="master-item-card">
+            <label for="num"><i class="fa-solid fa-hashtag"></i> Item Number:</label>
+            <input type="number" id="num" value="1" min="1">
+        </div>
+
+        <div class="section-title">
+            <span>Manage Product Fields</span>
+        </div>
+
+        <!-- Item Image -->
+        <div class="control-group">
+            <label>Item Image URL</label>
+            <div class="input-row">
+                <input type="text" id="ini" placeholder="Paste image link here...">
+                <button id="btn1" class="upload-btn">Upload</button>
+            </div>
+        </div>
+
+        <!-- Item Name -->
+        <div class="control-group">
+            <label>Item Name</label>
+            <div class="input-row">
+                <input type="text" id="int" placeholder="Enter product title...">
+                <button id="btn2" class="upload-btn">Upload</button>
+            </div>
+        </div>
+
+        <!-- Item Weight -->
+        <div class="control-group">
+            <label>Item Weight</label>
+            <div class="input-row">
+                <input type="text" id="inw" placeholder="e.g. 300g / Pack of 6">
+                <button id="btn3" class="upload-btn">Upload</button>
+            </div>
+        </div>
+
+        <!-- Item Price -->
+        <div class="control-group">
+            <label>Item Price (Selling Price)</label>
+            <div class="input-row">
+                <input type="text" id="inp" placeholder="e.g. ₹120">
+                <button id="btn4" class="upload-btn">Upload</button>
+            </div>
+        </div>
+
+        <!-- Item MRP -->
+        <div class="control-group">
+            <label>Item MRP (Original Price)</label>
+            <div class="input-row">
+                <input type="text" id="inmrp" placeholder="e.g. ₹150">
+                <button id="btn5" class="upload-btn">Upload</button>
+            </div>
+        </div>
+
+        <!-- Item Discount -->
+        <div class="control-group">
+            <label>Item Discount Tag</label>
+            <div class="input-row">
+                <input type="text" id="indis" placeholder="e.g. 20% OFF">
+                <button id="btn6" class="upload-btn">Upload</button>
+            </div>
+        </div>
+
+        <!-- Item Detail -->
+        <div class="control-group">
+            <label>Item Description / Details</label>
+            <div class="input-row">
+                <textarea rows="3" id="indet" placeholder="Write product details here..."></textarea>
+                <button id="btn7" class="upload-btn">Upload</button>
+            </div>
+        </div>
+
+        <!-- Live Monitor Panel -->
+        <div class="monitor-section">
+            <div class="section-title" style="margin-bottom: 15px;">
+                <span style="color: #e31e24;"><i class="fa-solid fa-circle-dot"></i> Live Monitor Preview</span>
+            </div>
+
+            <div class="product-img-preview">
+                <img id="img1" src="" alt="No Image Selected">
+            </div>
+
+            <div class="data-preview-list">
+                <div class="data-row">
+                    <span class="title-label">Name:</span>
+                    <span class="value-output" id="name">name</span>
+                </div>
+                <div class="data-row">
+                    <span class="title-label">Weight:</span>
+                    <span class="value-output" id="weight">weight</span>
+                </div>
+                <div class="data-row">
+                    <span class="title-label">Price:</span>
+                    <span class="value-output" id="price" style="color: #e31e24;">price</span>
+                </div>
+                <div class="data-row">
+                    <span class="title-label">MRP:</span>
+                    <span class="value-output" id="mrpd1" style="text-decoration: line-through; color: #888;">mrp</span>
+                </div>
+                <div class="data-row">
+                    <span class="title-label">Discount:</span>
+                    <span class="value-output" id="discountd1" style="color: green;">discount</span>
+                </div>
+                <div style="font-size: 12px; color: #888; font-weight: 600; margin-top: 4px;">Description Detail:</div>
+                <div class="detail-display" id="detailed1">details</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Script Logic (Untouched & Intact) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, set, get, push, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        // ---------- FIREBASE SETUP ----------
+        const firebaseConfig = {
+          apiKey: "AIzaSyCTWmzMsNF58HVkj6eVe0aAJPpkcBIeCUU",
+          authDomain: "myapps-79dd3.firebaseapp.com",
+          databaseURL: "https://myapps-79dd3-default-rtdb.firebaseio.com",
+          projectId: "myapps-79dd3",
+          storageBucket: "myapps-79dd3.firebasestorage.app",
+          messagingSenderId: "1032448815652",
+          appId: "1:1032448815652:web:513d4f24cef0ffba659eb1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ---------- HELPER FUNCTIONS ----------
+        function saveData(path, value) {
+          set(ref(db, path), value)
+            .then(() => console.log("Saved ✔", path, value))
+            .catch((err) => console.log("ERROR:", err.message));
+        }
+
+        function pushData(path, value) {
+          push(ref(db, path), value)
+            .then(() => console.log("Added ✔", path, value))
+            .catch((err) => console.log("ERROR:", err.message));
+        }
+
+        function readData(path, callback) {
+          get(ref(db, path))
+            .then(() => callback(snapshot.val()))
+            .catch((err) => console.log("ERROR:", err.message));
+        }
+
+        function deleteData(path) {
+          remove(ref(db, path))
+            .then(() => console.log("Deleted ✔", path))
+            .catch((err) => console.log("ERROR:", err.message));
+        }
+
+        function listenData(path, callback) {
+          onValue(ref(db, path), (snapshot) => callback(snapshot.val()));
+        }
+
+        // ---------- BUTTONS ----------
+        const ini = document.getElementById("ini");
+        const int = document.getElementById("int");
+        const inw = document.getElementById("inw");
+        const inp = document.getElementById("inp");
+        const inmrp = document.getElementById("inmrp");
+        const indis = document.getElementById("indis");
+        const indet = document.getElementById("indet");
+        
+        document.getElementById("btn1").addEventListener("click", () => {
+          const url = document.getElementById("ini").value.trim();
+          const m=document.getElementById("num").value;
+          saveData("img"+m, url);
+        });
+        
+        document.getElementById("btn2").addEventListener("click", () => {
+          const m=document.getElementById("num").value;
+          saveData("title"+m,int.value);
+        });
+        
+        document.getElementById("btn3").addEventListener("click", () => {
+          const m=document.getElementById("num").value;
+          saveData("weight"+m,inw.value);
+        });
+        
+        document.getElementById("btn4").addEventListener("click", () => {
+          const m=document.getElementById("num").value;
+          saveData("price"+m,inp.value);
+        });
+        
+        document.getElementById("btn5").addEventListener("click", () => {
+          const m=document.getElementById("num").value;
+          saveData("mrpd"+m,inmrp.value);
+        });
+
+        document.getElementById("btn6").addEventListener("click", () => {
+          const m=document.getElementById("num").value;
+          saveData("discountd"+m,indis.value);
+        });
+
+        document.getElementById("btn7").addEventListener("click", () => {
+          const m=document.getElementById("num").value;
+          saveData("detailed"+m,indet.value);
+        });
+
+        // ---------- OUTPUT real-time listeners ----------
+        const numInput = document.getElementById("num");
+
+        let unsubWeight, unsubPrice, unsubTitle, unsubImg, unsubmrp, unsubdiscount, unsubdetaile;
+
+        function attachListeners(m) {
+          if (unsubWeight) unsubWeight();
+          if (unsubPrice) unsubPrice();
+          if (unsubTitle) unsubTitle();
+          if (unsubImg) unsubImg();
+          if (unsubmrp) unsubmrp();
+          if (unsubdiscount) unsubdiscount();
+          if (unsubdetaile) unsubdetaile();
+
+          unsubWeight = listenData("weight" + m, (val) => {
+            document.getElementById("weight").innerText = val;
+          });
+
+          unsubPrice = listenData("price" + m, (val) => {
+            document.getElementById("price").innerText = val;
+          });
+
+          unsubTitle = listenData("title" + m, (val) => {
+            document.getElementById("name").innerText = val;
+          });
+
+          unsubImg = listenData("img" + m, (url) => {
+            document.getElementById("img1").src = url || "";
+          });
+          
+          unsubmrp = listenData("mrpd" + m, (val) => {
+            document.getElementById("mrpd1").innerText = val;
+          });
+
+          unsubdiscount = listenData("discountd" + m, (val) => {
+            document.getElementById("discountd1").innerText = val;
+          });
+
+          unsubdetaile = listenData("detailed" + m, (val) => {
+            document.getElementById("detailed1").innerText = val;
+          });
+        }
+
+        attachListeners(numInput.value || 1);
+
+        numInput.addEventListener("input", () => {
+          const m = numInput.value;
+          if (m) attachListeners(m);
+        });
+    </script>
+</body>
+</html>
