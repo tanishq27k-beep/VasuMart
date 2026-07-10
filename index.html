@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VasuMart - Admin Controller</title>
+    <title>VasuMart - Profile</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -24,501 +24,437 @@
             justify-content: center;
         }
 
-        /* Mobile App Container matching Home Page */
+        /* 🚀 1. SPLASH SCREEN (ओपनिंग स्क्रीन) */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .splash-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: scaleUp 0.6s ease-out;
+        }
+
+        .splash-icon {
+            background: #e31e24;
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 42px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(227, 30, 36, 0.2);
+        }
+
+        .splash-text {
+            font-size: 46px;
+            font-weight: 700;
+            color: #002f6c;
+        }
+
+        .splash-text span {
+            color: #e31e24;
+        }
+
+        @keyframes scaleUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Mobile App Container */
         .app-container {
             width: 100%;
-            max-width: 414px; /* iPhone Max Width */
+            max-width: 414px;
             background-color: #f8f9fa;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            padding: 15px;
-            padding-bottom: 40px;
+            padding-bottom: 80px;
         }
 
-        /* App Header matching original style */
-        header {
-            background: #fff;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .brand-icon {
-            background: #e31e24; /* VasuMart Red */
+        /* Profile Header Design */
+        .profile-header {
+            background: linear-gradient(135deg, #002f6c, #0056b3);
+            padding: 30px 20px;
             color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 10px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 47, 108, 0.2);
+        }
+
+        .profile-avatar-wrapper {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 12px auto;
+        }
+
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: white;
+            color: #002f6c;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 45px;
+            border: 3px solid rgba(255, 255, 255, 0.4);
         }
 
-        .brand-name {
+        .edit-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #e31e24;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            border: 2px solid #002f6c;
+            cursor: pointer;
+        }
+
+        .profile-name {
             font-size: 20px;
             font-weight: 700;
-            color: #002f6c;
+            margin-bottom: 4px;
         }
 
-        .brand-name span {
-            color: #e31e24;
+        .profile-tag {
+            font-size: 12px;
+            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 3px 12px;
+            border-radius: 12px;
+            display: inline-block;
         }
 
-        .panel-tag {
-            font-size: 11px;
-            background: #ecf2ff;
-            color: #002f6c;
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        /* Master Selector Item Box */
-        .master-item-card {
-            background: linear-gradient(135deg, #002f6c, #0056b3);
+        /* Wallet Dashboard */
+        .wallet-card {
+            background: white;
+            margin: -20px 20px 20px 20px;
             border-radius: 15px;
-            padding: 15px;
-            color: white;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 10;
         }
 
-        .master-item-card label {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .master-item-card input {
-            width: 80px;
-            padding: 8px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 700;
-            text-align: center;
-            outline: none;
-            color: #002f6c;
-            background: #fff;
-        }
-
-        /* Section Titles matching Home Page */
-        .section-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 12px;
+        .wallet-info {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 12px;
         }
 
-        /* Input Controls Layout */
-        .control-group {
-            background: #fff;
-            border-radius: 15px;
-            padding: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            margin-bottom: 15px;
-            border: 1px solid #eee;
-        }
-
-        .control-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 6px;
-        }
-
-        .input-row {
-            display: flex;
-            gap: 10px;
-        }
-
-        .input-row input, .input-row textarea {
-            flex: 1;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 13px;
-            outline: none;
-            background: #f8f9fa;
-            transition: 0.2s;
-        }
-
-        .input-row input:focus, .input-row textarea:focus {
-            border-color: #002f6c;
-            background: #fff;
-        }
-
-        /* Upload Button Styled like the original app */
-        .upload-btn {
-            background: #fff;
+        .wallet-info i {
+            font-size: 24px;
             color: #e31e24;
-            border: 1px solid #e31e24;
-            padding: 0 15px;
+            background: #fff5f5;
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .wallet-balance-label {
+            font-size: 11px;
+            color: #777;
+        }
+
+        .wallet-balance {
+            font-size: 16px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .add-money-btn {
+            background: #002f6c;
+            color: white;
+            border: none;
+            padding: 6px 14px;
             border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
         }
 
-        .upload-btn:active {
-            background: #e31e24;
-            color: #fff;
-        }
-
-        /* Live Monitor Section mimicking Product Card Styles */
-        .monitor-section {
-            background: #fff;
+        /* Menu Options List */
+        .menu-section {
+            background: white;
+            margin: 0 20px 20px 20px;
             border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            margin-top: 25px;
-            border: 1px dashed #ced4da;
+            padding: 5px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            border: 1px solid #eee;
         }
 
-        .product-img-preview {
-            height: 140px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
-            overflow: hidden;
-            border: 1px solid #f1f3f5;
-        }
-
-        .product-img-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        /* Live Stats Table/List */
-        .data-preview-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .data-row {
+        .menu-item {
             display: flex;
             justify-content: space-between;
-            font-size: 13px;
-            border-bottom: 1px dashed #f1f3f5;
-            padding-bottom: 6px;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f3f5;
+            transition: background 0.2s;
         }
 
-        .data-row .title-label {
-            color: #888;
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:active {
+            background: #f8f9fa;
+        }
+
+        .menu-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-left i {
+            font-size: 18px;
+            width: 25px;
+            text-align: center;
+        }
+
+        .icon-blue { color: #002f6c; }
+        .icon-red { color: #e31e24; }
+        .icon-green { color: #28a745; }
+        .icon-orange { color: #fd7e14; }
+
+        .menu-text {
+            font-size: 14px;
             font-weight: 500;
+            color: #333;
         }
 
-        .data-row .value-output {
-            color: #222;
+        .menu-right {
+            color: #bbb;
+            font-size: 12px;
+        }
+
+        /* Logout Button Specific */
+        .logout-item {
+            color: #e31e24;
+        }
+        .logout-item .menu-text {
+            color: #e31e24;
             font-weight: 600;
         }
 
-        .detail-display {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            color: #555;
-            margin-top: 4px;
-            min-height: 50px;
-            border: 1px solid #eee;
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 414px;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            border-top: 1px solid #eee;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #888;
+            text-decoration: none;
+            font-size: 10px;
+            gap: 4px;
+        }
+
+        .nav-item.active {
+            color: #e31e24;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        .trans {
+            background: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            outline: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- App Header -->
-        <header>
-            <div class="brand">
-                <div class="brand-icon">V</div>
-                <div class="brand-name">Vasu<span>Mart</span></div>
-            </div>
-            <div class="panel-tag">Controller</div>
-        </header>
-
-        <!-- Master Item Config -->
-        <div class="master-item-card">
-            <label for="num"><i class="fa-solid fa-hashtag"></i> Item Number:</label>
-            <input type="number" id="num" value="1" min="1">
-        </div>
-
-        <div class="section-title">
-            <span>Manage Product Fields</span>
-        </div>
-
-        <!-- Item Image -->
-        <div class="control-group">
-            <label>Item Image URL</label>
-            <div class="input-row">
-                <input type="text" id="ini" placeholder="Paste image link here...">
-                <button id="btn1" class="upload-btn">Upload</button>
-            </div>
-        </div>
-
-        <!-- Item Name -->
-        <div class="control-group">
-            <label>Item Name</label>
-            <div class="input-row">
-                <input type="text" id="int" placeholder="Enter product title...">
-                <button id="btn2" class="upload-btn">Upload</button>
-            </div>
-        </div>
-
-        <!-- Item Weight -->
-        <div class="control-group">
-            <label>Item Weight</label>
-            <div class="input-row">
-                <input type="text" id="inw" placeholder="e.g. 300g / Pack of 6">
-                <button id="btn3" class="upload-btn">Upload</button>
-            </div>
-        </div>
-
-        <!-- Item Price -->
-        <div class="control-group">
-            <label>Item Price (Selling Price)</label>
-            <div class="input-row">
-                <input type="text" id="inp" placeholder="e.g. ₹120">
-                <button id="btn4" class="upload-btn">Upload</button>
-            </div>
-        </div>
-
-        <!-- Item MRP -->
-        <div class="control-group">
-            <label>Item MRP (Original Price)</label>
-            <div class="input-row">
-                <input type="text" id="inmrp" placeholder="e.g. ₹150">
-                <button id="btn5" class="upload-btn">Upload</button>
-            </div>
-        </div>
-
-        <!-- Item Discount -->
-        <div class="control-group">
-            <label>Item Discount Tag</label>
-            <div class="input-row">
-                <input type="text" id="indis" placeholder="e.g. 20% OFF">
-                <button id="btn6" class="upload-btn">Upload</button>
-            </div>
-        </div>
-
-        <!-- Item Detail -->
-        <div class="control-group">
-            <label>Item Description / Details</label>
-            <div class="input-row">
-                <textarea rows="3" id="indet" placeholder="Write product details here..."></textarea>
-                <button id="btn7" class="upload-btn">Upload</button>
-            </div>
-        </div>
-
-        <!-- Live Monitor Panel -->
-        <div class="monitor-section">
-            <div class="section-title" style="margin-bottom: 15px;">
-                <span style="color: #e31e24;"><i class="fa-solid fa-circle-dot"></i> Live Monitor Preview</span>
-            </div>
-
-            <div class="product-img-preview">
-                <img id="img1" src="" alt="No Image Selected">
-            </div>
-
-            <div class="data-preview-list">
-                <div class="data-row">
-                    <span class="title-label">Name:</span>
-                    <span class="value-output" id="name">name</span>
-                </div>
-                <div class="data-row">
-                    <span class="title-label">Weight:</span>
-                    <span class="value-output" id="weight">weight</span>
-                </div>
-                <div class="data-row">
-                    <span class="title-label">Price:</span>
-                    <span class="value-output" id="price" style="color: #e31e24;">price</span>
-                </div>
-                <div class="data-row">
-                    <span class="title-label">MRP:</span>
-                    <span class="value-output" id="mrpd1" style="text-decoration: line-through; color: #888;">mrp</span>
-                </div>
-                <div class="data-row">
-                    <span class="title-label">Discount:</span>
-                    <span class="value-output" id="discountd1" style="color: green;">discount</span>
-                </div>
-                <div style="font-size: 12px; color: #888; font-weight: 600; margin-top: 4px;">Description Detail:</div>
-                <div class="detail-display" id="detailed1">details</div>
-            </div>
+    <!-- 🚀 2. SPLASH SCREEN (ओपनिंग स्क्रीन) -->
+    <div id="splash-screen">
+        <div class="splash-logo-container">
+            <div class="splash-icon">V</div>
+            <div class="splash-text">Vasu<span>Mart</span></div>
         </div>
     </div>
 
-    <!-- Firebase Script Logic (Untouched & Intact) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, set, get, push, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-        // ---------- FIREBASE SETUP ----------
-        const firebaseConfig = {
-          apiKey: "AIzaSyCTWmzMsNF58HVkj6eVe0aAJPpkcBIeCUU",
-          authDomain: "myapps-79dd3.firebaseapp.com",
-          databaseURL: "https://myapps-79dd3-default-rtdb.firebaseio.com",
-          projectId: "myapps-79dd3",
-          storageBucket: "myapps-79dd3.firebasestorage.app",
-          messagingSenderId: "1032448815652",
-          appId: "1:1032448815652:web:513d4f24cef0ffba659eb1"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        // ---------- HELPER FUNCTIONS ----------
-        function saveData(path, value) {
-          set(ref(db, path), value)
-            .then(() => console.log("Saved ✔", path, value))
-            .catch((err) => console.log("ERROR:", err.message));
-        }
-
-        function pushData(path, value) {
-          push(ref(db, path), value)
-            .then(() => console.log("Added ✔", path, value))
-            .catch((err) => console.log("ERROR:", err.message));
-        }
-
-        function readData(path, callback) {
-          get(ref(db, path))
-            .then(() => callback(snapshot.val()))
-            .catch((err) => console.log("ERROR:", err.message));
-        }
-
-        function deleteData(path) {
-          remove(ref(db, path))
-            .then(() => console.log("Deleted ✔", path))
-            .catch((err) => console.log("ERROR:", err.message));
-        }
-
-        function listenData(path, callback) {
-          onValue(ref(db, path), (snapshot) => callback(snapshot.val()));
-        }
-
-        // ---------- BUTTONS ----------
-        const ini = document.getElementById("ini");
-        const int = document.getElementById("int");
-        const inw = document.getElementById("inw");
-        const inp = document.getElementById("inp");
-        const inmrp = document.getElementById("inmrp");
-        const indis = document.getElementById("indis");
-        const indet = document.getElementById("indet");
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
         
-        document.getElementById("btn1").addEventListener("click", () => {
-          const url = document.getElementById("ini").value.trim();
-          const m=document.getElementById("num").value;
-          saveData("img"+m, url);
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-avatar-wrapper">
+                <div class="profile-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="edit-badge">
+                    <i class="fa-solid fa-pen"></i>
+                </div>
+            </div>
+            <!-- User Info -->
+            <div class="profile-name">Vaibhav Kumawat</div>
+            <div class="profile-tag">Premium Member</div>
+        </div>
+
+        <!-- Wallet Card -->
+        <div class="wallet-card">
+            <div class="wallet-info">
+                <i class="fa-solid fa-wallet"></i>
+                <div>
+                    <div class="wallet-balance-label">VasuMart वॉलेट बैलेंस</div>
+                    <div class="wallet-balance">₹0.00</div>
+                </div>
+            </div>
+            <button class="add-money-btn">+ ऐड करें</button>
+        </div>
+
+        <!-- Menu Section 1 (Account Settings) -->
+        <div class="menu-section">
+            <!-- Item 1: My Orders -->
+            <div class="menu-item">
+                <div class="menu-left">
+                    <i class="fa-solid fa-box icon-blue"></i>
+                    <span class="menu-text">मेरे ऑर्डर्स (My Orders)</span>
+                </div>
+                <div class="menu-right"><i class="fa-solid fa-chevron-right"></i></div>
+            </div>
+            <!-- Item 2: Saved Addresses -->
+            <div class="menu-item">
+                <div class="menu-left">
+                    <i class="fa-solid fa-location-dot icon-red"></i>
+                    <span class="menu-text">बचाए गए पते (Saved Addresses)</span>
+                </div>
+                <div class="menu-right"><i class="fa-solid fa-chevron-right"></i></div>
+            </div>
+            <!-- Item 3: Payment Methods -->
+            <div class="menu-item">
+                <div class="menu-left">
+                    <i class="fa-solid fa-credit-card icon-green"></i>
+                    <span class="menu-text">पेमेंट मेथड्स (Payments)</span>
+                </div>
+                <div class="menu-right"><i class="fa-solid fa-chevron-right"></i></div>
+            </div>
+        </div>
+
+        <!-- Menu Section 2 (Support & Info) -->
+        <div class="menu-section">
+            <!-- Item 4: Customer Support -->
+            <div class="menu-item">
+                <div class="menu-left">
+                    <i class="fa-solid fa-headset icon-orange"></i>
+                    <span class="menu-text">कस्टमर सपोर्ट (Help Centre)</span>
+                </div>
+                <div class="menu-right"><i class="fa-solid fa-chevron-right"></i></div>
+            </div>
+            <!-- Item 5: About Us -->
+            <div class="menu-item">
+                <div class="menu-left">
+                    <i class="fa-solid fa-circle-info icon-blue"></i>
+                    <span class="menu-text">हमारे बारे में (About VasuMart)</span>
+                </div>
+                <div class="menu-right"><i class="fa-solid fa-chevron-right"></i></div>
+            </div>
+        </div>
+
+        <!-- Menu Section 3 (Logout) -->
+        <div class="menu-section">
+            <div class="menu-item logout-item">
+                <div class="menu-left">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span class="menu-text">लॉगआउट (Logout)</span>
+                </div>
+                <div class="menu-right"><i class="fa-solid fa-chevron-right" style="color: #e31e24;"></i></div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation Bar (इसमें Profile एक्टिव है) -->
+        <nav class="bottom-nav">
+            <button class="trans">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Home</span>
+                </a>
+            </button>
+            <button onclick="category()" class="trans">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-border-all"></i>
+                    <span>Categories</span>
+                </a>
+            </button>
+            <button onclick="cart()" class="trans">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Cart</span>
+                </a>
+            </button>
+            <button class="trans">
+                <a href="#" class="nav-item active">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </button>
+        </nav>
+    </div>
+
+    <!-- 🚀 3. JAVASCRIPT (ओपनिंग स्क्रीन हटाने के लिए) -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 500);
+            }, 500);
         });
-        
-        document.getElementById("btn2").addEventListener("click", () => {
-          const m=document.getElementById("num").value;
-          saveData("title"+m,int.value);
-        });
-        
-        document.getElementById("btn3").addEventListener("click", () => {
-          const m=document.getElementById("num").value;
-          saveData("weight"+m,inw.value);
-        });
-        
-        document.getElementById("btn4").addEventListener("click", () => {
-          const m=document.getElementById("num").value;
-          saveData("price"+m,inp.value);
-        });
-        
-        document.getElementById("btn5").addEventListener("click", () => {
-          const m=document.getElementById("num").value;
-          saveData("mrpd"+m,inmrp.value);
-        });
+    function home(){
+  window.location.href = "https://tanishq27k-beep.github.io/VasuMartHome/";
+}
 
-        document.getElementById("btn6").addEventListener("click", () => {
-          const m=document.getElementById("num").value;
-          saveData("discountd"+m,indis.value);
-        });
-
-        document.getElementById("btn7").addEventListener("click", () => {
-          const m=document.getElementById("num").value;
-          saveData("detailed"+m,indet.value);
-        });
-
-        // ---------- OUTPUT real-time listeners ----------
-        const numInput = document.getElementById("num");
-
-        let unsubWeight, unsubPrice, unsubTitle, unsubImg, unsubmrp, unsubdiscount, unsubdetaile;
-
-        function attachListeners(m) {
-          if (unsubWeight) unsubWeight();
-          if (unsubPrice) unsubPrice();
-          if (unsubTitle) unsubTitle();
-          if (unsubImg) unsubImg();
-          if (unsubmrp) unsubmrp();
-          if (unsubdiscount) unsubdiscount();
-          if (unsubdetaile) unsubdetaile();
-
-          unsubWeight = listenData("weight" + m, (val) => {
-            document.getElementById("weight").innerText = val;
-          });
-
-          unsubPrice = listenData("price" + m, (val) => {
-            document.getElementById("price").innerText = val;
-          });
-
-          unsubTitle = listenData("title" + m, (val) => {
-            document.getElementById("name").innerText = val;
-          });
-
-          unsubImg = listenData("img" + m, (url) => {
-            document.getElementById("img1").src = url || "";
-          });
-          
-          unsubmrp = listenData("mrpd" + m, (val) => {
-            document.getElementById("mrpd1").innerText = val;
-          });
-
-          unsubdiscount = listenData("discountd" + m, (val) => {
-            document.getElementById("discountd1").innerText = val;
-          });
-
-          unsubdetaile = listenData("detailed" + m, (val) => {
-            document.getElementById("detailed1").innerText = val;
-          });
-        }
-
-        attachListeners(numInput.value || 1);
-
-        numInput.addEventListener("input", () => {
-          const m = numInput.value;
-          if (m) attachListeners(m);
-        });
+function category(){
+  window.location.href = "https://tanishq27k-beep.github.io/VMcatg/";
+}
+function cart(){
+  window.location.href = "https://tanishq27k-beep.github.io/Counter/#";
+}  
     </script>
 </body>
 </html>
